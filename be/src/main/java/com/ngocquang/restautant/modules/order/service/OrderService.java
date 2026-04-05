@@ -158,6 +158,27 @@ public class OrderService {
         return mapToDto(findOrderWithDetails(id));
     }
 
+    @Transactional
+    public OrderDto updateStatus(Integer id, OrderStatus status) {
+
+        User user = currentUserUtil.getCurrentUser();
+
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
+
+        order.setStatus(status);
+
+        order = orderRepository.save(order);
+
+        systemLogService.log(
+                SystemAction.UPDATE,
+                "Update order #" + id + " status: " + status,
+                user
+        );
+
+        return mapToDto(order);
+    }
+
     private OrderDto mapToDto(Order order) {
 
         List<OrderDetailDto> details = order.getOrderDetails()
