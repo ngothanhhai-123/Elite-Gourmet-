@@ -1,4 +1,4 @@
-const API = "http://localhost:8080/api/system-logs";
+const SYSTEM_LOG_API = "http://localhost:8080/api/system-logs";
 
 function initSystemLog() {
   renderHistory();
@@ -37,7 +37,7 @@ async function renderHistory(page = 0) {
     if (from) params.append("from", from);
     if (to) params.append("to", to);
 
-    const res = await fetch(`${API}?${params}`);
+    const res = await fetch(`${SYSTEM_LOG_API}?${params}`);
     const json = await res.json();
 
     const logs = json.data.content;
@@ -189,3 +189,5 @@ function initSearchDebounce() {
     }, 500);
   });
 }
+
+window.initSystemLog = initSystemLog;

@@ -3,6 +3,7 @@ package com.ngocquang.restautant.modules.order.controller;
 import com.ngocquang.restautant.common.ApiResponse;
 import com.ngocquang.restautant.modules.order.dto.OrderCreateDto;
 import com.ngocquang.restautant.modules.order.dto.OrderDto;
+import com.ngocquang.restautant.modules.order.entity.OrderStatus;
 import com.ngocquang.restautant.modules.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -47,6 +48,19 @@ public class OrderController {
                 ApiResponse.success(
                         orderService.getOrdersByUser(),
                         "Fetched user orders successfully"
+                )
+        );
+    }
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<ApiResponse<OrderDto>> updateStatus(
+            @PathVariable Integer id,
+            @RequestParam OrderStatus status
+    ) {
+        return ResponseEntity.ok(
+                ApiResponse.success(
+                        orderService.updateStatus(id, status),
+                        "Updated order status successfully"
                 )
         );
     }
